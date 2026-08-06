@@ -1,0 +1,256 @@
+# =====================================================
+#  Prison - головний конфіг
+# =====================================================
+
+storage:
+  # Наразі підтримується лише YAML-сховище (playerdata/*.yml)
+  # У майбутньому можна розширити до MySQL через PlayerDataStorage interface
+  type: YAML
+
+language:
+  default: ru          # ru | en - мова за замовчуванням для нових гравців
+  available: [ru, en]
+
+mines:
+  auto-reset-threshold: 0.4   # якщо лишилось <40% "цінних" блоків - шахта регенерується
+  check-interval-seconds: 15  # як часто перевіряти % виробленості шахти
+  broadcast-reset: true
+  border-block: "BEDROCK"
+  regen-blocks-per-tick: 2000 # скільки блоків ставити за один тік під час реген-батчингу (анти-лаг)
+
+sellwand:
+  # Блоки, зруйновані інструментом з увімкненим автопродажем, одразу конвертуються в гроші
+  enabled: true
+
+upgrades:
+  # Прокачка "тірами" як на VimeWorld: кожен крок - це конкретний матеріал
+  # предмета + один чи декілька рівнів зачарування (напр. фінальний тір
+  # лопати одразу дає Ефективність III + Удачу I). Перший рядок кожної
+  # категорії - стартовий тір (cost = 0). Кінцевий предмет кожного апгрейду
+  # завжди незламний (Unbreakable), незалежно від матеріалу.
+  #
+  # SHOVEL - окрема категорія від tool: качається не рудою, а земляною
+  # сировиною (DIRT/SAND/GRAVEL), тематично пов'язаною з копанням.
+  tool:
+    tiers:
+      - material: WOODEN
+        enchants: [{enchant: DIG_SPEED, level: 0}]
+      - material: WOODEN
+        enchants: [{enchant: DIG_SPEED, level: 1}]
+        cost-coins: 500
+      - material: STONE
+        enchants: [{enchant: DIG_SPEED, level: 1}]
+        cost-coins: 1000
+        cost-material: COBBLESTONE
+        cost-amount: 32
+      - material: IRON
+        enchants: [{enchant: DIG_SPEED, level: 2}]
+        cost-coins: 3000
+        cost-material: IRON_INGOT
+        cost-amount: 32
+      - material: DIAMOND
+        enchants: [{enchant: DIG_SPEED, level: 3}]
+        cost-coins: 8000
+        cost-material: DIAMOND
+        cost-amount: 16
+  shovel:
+    tiers:
+      - material: WOODEN
+        enchants: [{enchant: DIG_SPEED, level: 0}]
+      - material: WOODEN
+        enchants: [{enchant: DIG_SPEED, level: 1}]
+        cost-coins: 400
+        cost-material: DIRT
+        cost-amount: 32
+      - material: WOODEN
+        enchants: [{enchant: DIG_SPEED, level: 2}]
+        cost-coins: 700
+        cost-material: DIRT
+        cost-amount: 48
+      - material: WOODEN
+        enchants: [{enchant: DIG_SPEED, level: 3}]
+        cost-coins: 1000
+        cost-material: SAND
+        cost-amount: 32
+      - material: STONE
+        enchants: [{enchant: DIG_SPEED, level: 1}]
+        cost-coins: 1500
+        cost-material: SAND
+        cost-amount: 48
+      - material: STONE
+        enchants: [{enchant: DIG_SPEED, level: 2}]
+        cost-coins: 2000
+        cost-material: GRAVEL
+        cost-amount: 32
+      - material: STONE
+        enchants: [{enchant: DIG_SPEED, level: 3}]
+        cost-coins: 2600
+        cost-material: GRAVEL
+        cost-amount: 48
+      - material: STONE
+        enchants: [{enchant: DIG_SPEED, level: 4}]
+        cost-coins: 3200
+        cost-material: DIRT
+        cost-amount: 64
+      - material: IRON
+        enchants: [{enchant: DIG_SPEED, level: 1}]
+        cost-coins: 4000
+        cost-material: SAND
+        cost-amount: 64
+      - material: IRON
+        enchants: [{enchant: DIG_SPEED, level: 2}]
+        cost-coins: 5000
+        cost-material: GRAVEL
+        cost-amount: 64
+      - material: IRON
+        enchants: [{enchant: DIG_SPEED, level: 3}]
+        cost-coins: 6500
+        cost-material: DIRT
+        cost-amount: 96
+      - material: IRON
+        enchants: [{enchant: DIG_SPEED, level: 3}, {enchant: LOOT_BONUS_BLOCKS, level: 1}]
+        cost-coins: 9000
+        cost-material: GRAVEL
+        cost-amount: 96
+  sword:
+    tiers:
+      - material: WOODEN
+        enchants: [{enchant: DAMAGE_ALL, level: 0}]
+      - material: WOODEN
+        enchants: [{enchant: DAMAGE_ALL, level: 1}]
+        cost-coins: 500
+      - material: STONE
+        enchants: [{enchant: DAMAGE_ALL, level: 1}]
+        cost-coins: 1000
+        cost-material: COBBLESTONE
+        cost-amount: 16
+      - material: IRON
+        enchants: [{enchant: DAMAGE_ALL, level: 2}]
+        cost-coins: 3000
+        cost-material: IRON_INGOT
+        cost-amount: 24
+      - material: DIAMOND
+        enchants: [{enchant: DAMAGE_ALL, level: 3}]
+        cost-coins: 7000
+        cost-material: DIAMOND
+        cost-amount: 12
+  armor:
+    tiers:
+      - material: LEATHER
+        enchants: [{enchant: PROTECTION_ENVIRONMENTAL, level: 0}]
+      - material: LEATHER
+        enchants: [{enchant: PROTECTION_ENVIRONMENTAL, level: 1}]
+        cost-coins: 400
+      - material: IRON
+        enchants: [{enchant: PROTECTION_ENVIRONMENTAL, level: 1}]
+        cost-coins: 1500
+        cost-material: IRON_INGOT
+        cost-amount: 24
+      - material: DIAMOND
+        enchants: [{enchant: PROTECTION_ENVIRONMENTAL, level: 2}]
+        cost-coins: 6000
+        cost-material: DIAMOND
+        cost-amount: 12
+levels:
+  max-level: 40                       # максимальний рівень, як на VimeWorld
+  reward-multiplier-per-level: 0.02   # +2% до автопродажу за кожен рівень (як бонус старого престижу)
+  # Вимоги для переходу НА кожен рівень (ключ = цільовий рівень). Не формула -
+  # готова таблиця, скопійована з реальних чисел VimeWorld.
+  requirements:
+    2: {blocks: 2100, coins: 15}
+    3: {blocks: 4000, coins: 25}
+    4: {blocks: 7500, coins: 25}
+    5: {blocks: 15000, coins: 130}
+    6: {blocks: 22000, coins: 350}
+    7: {blocks: 0, coins: 775}
+    8: {blocks: 41000, coins: 850}
+    9: {blocks: 52000, coins: 850}
+    10: {blocks: 62500, coins: 1200}
+    11: {blocks: 78000, coins: 1200}
+    12: {blocks: 95000, coins: 1350}
+    13: {blocks: 121000, coins: 2500}
+    14: {blocks: 167000, coins: 4500}
+    15: {blocks: 230000, coins: 6800}
+    16: {blocks: 276500, coins: 8000}
+    17: {blocks: 335000, coins: 12500}
+    18: {blocks: 370000, coins: 12500}
+    19: {blocks: 410000, coins: 15000}
+    20: {blocks: 465500, coins: 15000}
+    21: {blocks: 512500, coins: 18000}
+    22: {blocks: 555000, coins: 18000}
+    23: {blocks: 606000, coins: 21000}
+    24: {blocks: 733000, coins: 25000}
+    25: {blocks: 912000, coins: 45000}
+    26: {blocks: 1100100, coins: 65500}
+    27: {blocks: 1356000, coins: 75000}
+    28: {blocks: 1725500, coins: 105000}
+    29: {blocks: 2055500, coins: 105000}
+    30: {blocks: 2322000, coins: 175000}
+    31: {blocks: 2665000, coins: 225000}
+    32: {blocks: 3000000, coins: 245000}
+    33: {blocks: 3600000, coins: 275500}
+    34: {blocks: 4200000, coins: 275500}
+    35: {blocks: 5125000, coins: 337000}
+    36: {blocks: 6000000, coins: 490000}
+    37: {blocks: 6850000, coins: 490000}
+    38: {blocks: 7750000, coins: 890000}
+    39: {blocks: 8765000, coins: 890000}
+    40: {blocks: 10000000, coins: 1000000}
+
+baltop:
+  refresh-interval-seconds: 120  # як часто оновлювати кеш офлайн-балансів для /baltop
+
+auction:
+  max-listings-per-player: 10     # скільки лотів одночасно може виставити один гравець
+  max-price: 1000000000           # верхня межа ціни лота (захист від помилок вводу)
+  listing-duration-hours: 72      # через скільки годин непроданий лот автоматично знімається
+  expiry-check-interval-seconds: 300  # як часто перевіряти протухлі лоти
+
+boosters:
+  # Купуються за рублі через /booster. Повторна покупка ДОДАЄ термін до вже
+  # активного бустера, а сила одразу перемикається на щойно куплену.
+  # Допустимі рівні сили - лише 2, 3, 5 (BoosterManager.MULTIPLIERS).
+  coins:
+    tiers:
+      2:
+        price-day: 300
+        price-week: 1500
+        price-month: 5000
+      3:
+        price-day: 600
+        price-week: 3000
+        price-month: 10000
+      5:
+        price-day: 1200
+        price-week: 6000
+        price-month: 20000
+  blocks:
+    tiers:
+      2:
+        price-day: 300
+        price-week: 1500
+        price-month: 5000
+      3:
+        price-day: 600
+        price-week: 3000
+        price-month: 10000
+      5:
+        price-day: 1200
+        price-week: 6000
+        price-month: 20000
+
+perks:
+  # Пасивні бонуси, що видаються автоматично на певних рівнях (реальні
+  # Bukkit AttributeModifier - справді впливають на бій, не косметика).
+  hearts:
+    max-bars: 4    # максимум 4 полоски здоров'я (80 HP разом із базовою)
+    levels: [4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40]
+  damage:
+    max-bonus: 6   # максимум +6 додаткового урону
+    levels: [12, 16, 20, 24, 28, 32]
+
+economy:
+  starting-balance: 0.0
+  starting-rubles: 0.0
+  currency-symbol: "$"      # символ монет
+  rubles-symbol: "₽"        # символ рублів

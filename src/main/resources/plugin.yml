@@ -1,0 +1,91 @@
+name: Prison
+main: com.prison.core.PrisonPlugin
+version: '1.0'
+api-version: '1.16'
+author: MrWenter
+description: Самописний Prison-плагін (рівні 1-40, шахти, автопродаж, роздільний аукціон, тірова прокачка, бустери, GUI, локалізація)
+website: https://github.com/MrWenter228/prison-plugin
+softdepend: [PlaceholderAPI]
+load: POSTWORLD
+
+commands:
+  lvl:
+    description: Меню рівня (1-40) / адмін-команда set для зміни рівня гравця
+    usage: /lvl [set <гравець> <рівень>]
+    aliases: [level, levels]
+  mines:
+    description: Список шахт / телепорт до шахти
+    usage: /mines [назва]
+  pay:
+    description: Переказати монети іншому гравцю
+    usage: /pay <гравець> <сума>
+  autosell:
+    description: Керування автопродажем блоків при видобутку + миттєвий продаж інвентаря
+    usage: /autosell <on|off|all>
+  auc:
+    description: Аукціон за монети - продаж/купівля предметів
+    usage: /auc [sell <ціна> [гравець]]
+  rauc:
+    description: Аукціон за рублі - продаж/купівля предметів
+    usage: /rauc [sell <ціна> [гравець]]
+  money:
+    description: Видача монет гравцю (адмін)
+    usage: /money give <гравець> <сума>
+    permission: prison.admin
+  rubles:
+    description: Видача рублів гравцю - донат-валюта (адмін)
+    usage: /rubles give <гравець> <сума>
+    permission: prison.admin
+  minewand:
+    description: Отримати wand для виділення шахти (адмін)
+    usage: /minewand
+    permission: prison.admin
+  mineset:
+    description: Керування шахтами (адмін)
+    usage: /mineset <create|pos1|pos2|setblock|delete|reset|list> [аргументи]
+    permission: prison.admin
+  minesgui:
+    description: Відкрити GUI-меню шахт
+    usage: /minesgui
+  upgrade:
+    description: Прокачка тіра предмета в руці (дерево->камінь->залізо->алмаз, як на VimeWorld)
+    usage: /upgrade
+    aliases: [up, prokachka, gear]
+  booster:
+    description: Магазин бустерів монет/блоків за рублі x2/x3/x5 (день/тиждень/місяць) / адмінська видача
+    usage: /booster [give <гравець> <coins|blocks> <2|3|5> <day|week|month>]
+    aliases: [boosters, boost]
+
+permissions:
+  prison.admin:
+    description: Доступ до адмін-команд плагіна (/minewand, /mineset, /lvl set, /money, /rubles, /booster give)
+    default: op
+  prison.level:
+    description: Дозволяє використовувати /lvl (рівень 1-40)
+    default: true
+  prison.mines:
+    description: Дозволяє використовувати /mines та /minesgui
+    default: true
+  prison.upgrade:
+    description: Дозволяє використовувати /upgrade
+    default: true
+  prison.economy:
+    description: Дозволяє використовувати /pay та /autosell
+    default: true
+  prison.auction:
+    description: Дозволяє використовувати аукціони /auc та /rauc
+    default: true
+  prison.booster:
+    description: Дозволяє використовувати магазин бустерів /booster
+    default: true
+  prison.*:
+    description: Усі права плагіна Prison
+    default: op
+    children:
+      prison.admin: true
+      prison.level: true
+      prison.mines: true
+      prison.upgrade: true
+      prison.economy: true
+      prison.auction: true
+      prison.booster: true

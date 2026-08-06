@@ -1,0 +1,60 @@
+name: Build Prison plugin
+
+# Коли запускається:
+#  - push у main/master     -> просто збирає jar і кладе його в Artifacts цього запуску
+#  - push тегу виду v1.0.0  -> збирає jar І створює GitHub Release з jar-файлом у вкладенні
+#  - вручну через вкладку Actions -> "Run workflow"
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # потрібно, щоб workflow міг створювати Release і прикріплювати jar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'   # кешує ~/.m2 між запусками - другий і наступні білди значно швидші
+
+      - name: Build with Maven
+        run: mvn -B clean package
+
+      - name: Locate built jar
+        id: jar
+        run: |
+          JAR_PATH=$(find target -maxdepth 1 -name "*.jar" ! -name "*sources*" | head -n 1)
+          echo "path=$JAR_PATH" >> "$GITHUB_OUTPUT"
+          echo "Знайдено jar: $JAR_PATH"
+
+      # Jar завжди доступний тут, навіть без тегу:
+      # вкладка Actions -> конкретний запуск -> розділ "Artifacts" внизу сторінки.
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Prison-plugin-jar
+          path: ${{ steps.jar.outputs.path }}
+          retention-days: 30
+
+      # Якщо пуш був тегом (напр. git tag v1.0.0 && git push origin v1.0.0) -
+      # створюється справжній GitHub Release із jar-файлом у вкладенні,
+      # який видно на головній сторінці репозиторію в розділі "Releases".
+      - name: Create GitHub Release (тільки для тегів)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.jar.outputs.path }}
+          generate_release_notes: true

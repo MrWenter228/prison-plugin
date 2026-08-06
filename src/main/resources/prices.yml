@@ -1,0 +1,23 @@
+# =====================================================
+#  Ціни продажу за одиницю блоку/предмету (використовується
+#  для /sellall та автопродажу при видобутку в шахті).
+# =====================================================
+
+prices:
+  STONE: 0.5
+  COBBLESTONE: 0.3
+  COAL_ORE: 3.0
+  IRON_ORE: 6.0
+  GOLD_ORE: 10.0
+  REDSTONE_ORE: 8.0
+  LAPIS_ORE: 9.0
+  DIAMOND_ORE: 25.0
+  EMERALD_ORE: 30.0
+  ANCIENT_DEBRIS: 120.0
+  NETHERRACK: 0.2
+  DEEPSLATE: 0.6
+  COAL: 4.0
+  IRON_INGOT: 8.0
+  GOLD_INGOT: 12.0
+  DIAMOND: 35.0
+  EMERALD: 40.0
